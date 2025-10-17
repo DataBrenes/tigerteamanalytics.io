@@ -1,27 +1,487 @@
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
-<div id="container">
-    <!-- <img id="stockPhoto" src="images/photos/wild-tiger-face-black-white_left.jpeg" alt="Stock Photo"> -->
-    <!-- <img id="stockPhoto" src="images/photos/white-tiger-in-tropical-rainforest-at-night-2022-07-08-03-42-54-utc.jpg" alt="Stock Photo"> -->
-    <!-- <img id="stockPhoto" src="images/photos/wild-tiger-face-green_eyes.jpg" alt="Stock Photo"> -->
-    <!-- <img id="stockPhoto" src="images/photos/wild-tiger-face-black-white_center.png" alt="Stock Photo"> -->
-    <!-- <img id="stockPhoto" src="images/photos/design-fabrikken-white-tiger_u-l-q1g664f0.jpg" alt="Stock Photo"> -->
-    <img id="stockPhoto" src="images/photos/tiger-in-tropical-rainforest-at-night-1.jpg" alt="Stock Photo">
-    <!-- <img id="stockPhoto" src="images/photos/tiger-in-tropical-rainforest-at-night-2.jpg" alt="Stock Photo"> -->
-    <!-- <img id="stockPhoto" src="images/photos/tiger-in-tropical-rainforest-at-night-3.jpg" alt="Stock Photo">   -->
-    <!-- <img id="stockPhoto" src="images/photos/tiger-showing-living-in-open-zoo-wild-animals-or-2022-12-16-02-43-48-utc.jpg" alt="Stock Photo">  -->
-    <!-- <img id="stockPhoto" src="images/photos/" alt="Stock Photo">  -->
-    <video id="backgroundVideo" autoplay loop muted>
-      <!--Mov does not support transparency-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Team Analytics | Data Engineering & Analytics Consulting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      <source src="images/videos/background_1.mp4" type="video/mp4">
-      <!-- <source src="images/videos/background_2.mov" type="video/mov"> -->
-      <!-- <source src="images/videos/background_3.mov" type="video/mov"> -->
-      <!-- <source src="images/videos/background_5.mp4" type="video/mp4"> -->
-      <!-- <source src="images/videos/background_6.mp4" type="video/mp4"> -->
-      <!-- <source src="images/videos/background_7.mov" type="video/mov">  --> 
-      <!-- <source src="images/videos/background_8.mp4" type="video/mp4"> -->
-      <!-- <source src="images/videos/background_9.mp4" type="video/mp4">  -->
-      <source src="images/videos/background_10.mp4" type="video/mp4">
-    </video>
-  </div>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #hero-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #tiger-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        #data-overlay {
+            opacity: 0.5;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        #hero-content {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            z-index: 2;
+            text-align: right;
+        }
+
+        #hero-logo-img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2rem;
+            color: #00d9ff;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem 5%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: flex-end;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #00d9ff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00d9ff;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styling */
+        section {
+            min-height: 100vh;
+            padding: 100px 10%;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: #00d9ff;
+            margin-bottom: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* About Section */
+        #about {
+            background: linear-gradient(180deg, #000 0%, #001a1a 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text strong {
+            color: #00d9ff;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Services Section */
+        #services {
+            background: #000;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #00d9ff;
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .service-card h3 {
+            color: #00d9ff;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(180deg, #000 0%, #001a1a 100%);
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-content p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 1.5rem 3rem;
+            background: transparent;
+            color: #00d9ff;
+            border: 2px solid #00d9ff;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: #00d9ff;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+            z-index: -1;
+        }
+
+        .contact-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .contact-button:hover {
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .contact-info {
+            margin-top: 3rem;
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #hero-logo-img {
+                max-width: 250px;
+            }
+
+            .nav-logo {
+                height: 40px;
+            }
+
+            #hero-content {
+                right: 5%;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 80px 5%;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <img src="images/logo/tta-logo.jpg" alt="Tiger Team Analytics Logo" class="nav-logo">
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div id="hero-container">
+            <img id="tiger-bg" src="images/photos/tiger-in-tropical-rainforest-at-night-1.jpg" alt="Tiger Background">
+            <video id="data-overlay" autoplay loop muted playsinline>
+                <source src="images/videos/background_1.mp4" type="video/mp4">
+            </video>
+            <div id="hero-content">
+                <img id="hero-logo-img" src="images/logo/tta-logo.jpg" alt="Tiger Team Analytics">
+            </div>
+            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p><strong>Tiger Team Analytics LLC</strong> is a Charleston, South Carolina-based consulting firm specializing in data engineering and data analytics.</p>
+                <p>Like a tiger team, we operate with precision and efficiency — we come in, solve complex data challenges, and deliver results quickly.</p>
+                <p>We serve both government clients through the Naval Information Warfare Center (NIWC) and private sector organizations, helping them gain visibility into their data infrastructure and make informed, data-driven decisions.</p>
+                <p>Our approach combines technical expertise with strategic thinking to uncover hidden infrastructure, eliminate blind spots, and establish robust data governance frameworks.</p>
+            </div>
+            <div class="about-image">
+                <img src="images/photos/tiger-water.jpg" alt="Tiger in Water" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Data Engineering</h3>
+                <p>We build robust, scalable data pipelines and infrastructure that transform raw data into actionable insights. From ETL processes to cloud architecture, we engineer solutions that drive business value.</p>
+            </div>
+            <div class="service-card">
+                <h3>Data Analytics</h3>
+                <p>Our analytics services turn complex data into clear, strategic insights. We help organizations understand their data landscape and make informed decisions backed by comprehensive analysis.</p>
+            </div>
+            <div class="service-card">
+                <h3>TigerMap</h3>
+                <p>Our flagship product: an autonomous infrastructure discovery and mapping system that uses passive network analysis to uncover hidden assets, shadow IT, and undocumented infrastructure across your enterprise.</p>
+            </div>
+            <div class="service-card">
+                <h3>Data Governance</h3>
+                <p>We implement comprehensive data governance frameworks that ensure data integrity, security, and compliance while enabling seamless access and utilization across your organization.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <p>Ready to gain visibility into your data infrastructure? Let's discuss how Tiger Team Analytics can help your organization.</p>
+            <a href="mailto:contact@tigerteamanalytics.com" class="contact-button">Contact Us</a>
+            <div class="contact-info">
+                <p>Charleston, South Carolina</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Tiger Team Analytics LLC. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.getElementById('tiger-bg');
+            const overlay = document.getElementById('data-overlay');
+            
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                overlay.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Hide scroll indicator when scrolling
+        window.addEventListener('scroll', () => {
+            const indicator = document.querySelector('.scroll-indicator');
+            if (window.pageYOffset > 100) {
+                indicator.style.opacity = '0';
+            } else {
+                indicator.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+</html>
