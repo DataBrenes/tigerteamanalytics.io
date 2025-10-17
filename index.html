@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiger Team Analytics | Data Engineering & Analytics Consulting</title>
     <style>
+        :root {
+            --primary-color: #00D4E5;
+            --primary-glow: rgba(0, 212, 229, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,20 +21,26 @@
             background: #000;
             color: #fff;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         /* Hero Section */
         #hero {
             position: relative;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
             overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         #hero-container {
             position: relative;
             width: 100%;
             height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         #tiger-bg {
@@ -54,25 +65,7 @@
         }
 
         #hero-content {
-            position: absolute;
-            top: 50%;
-            right: 10%;
-            transform: translateY(-50%);
-            z-index: 2;
-            text-align: right;
-        }
-
-        #hero-logo-img {
-            max-width: 350px;
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.6));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            display: none;
         }
 
         .scroll-indicator {
@@ -88,7 +81,7 @@
         .scroll-indicator::before {
             content: '↓';
             font-size: 2rem;
-            color: #00d9ff;
+            color: var(--primary-color);
         }
 
         @keyframes bounce {
@@ -106,15 +99,28 @@
             padding: 1rem 5%;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 212, 229, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         .nav-logo {
-            height: 50px;
+            height: 60px;
             width: auto;
+        }
+
+        .nav-company-name {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
         nav ul {
@@ -125,7 +131,7 @@
         }
 
         nav a {
-            color: #00d9ff;
+            color: var(--primary-color);
             text-decoration: none;
             font-size: 1.1rem;
             transition: all 0.3s;
@@ -139,7 +145,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #00d9ff;
+            background: var(--primary-color);
             transition: width 0.3s;
         }
 
@@ -156,31 +162,44 @@
 
         .section-title {
             font-size: 3rem;
-            color: #00d9ff;
-            margin-bottom: 3rem;
-            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: left;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
 
+        #about .section-title {
+            position: relative;
+            z-index: 2;
+            padding-left: 10%;
+            margin-bottom: 0;
+        }
+
         /* About Section */
         #about {
-            background: linear-gradient(180deg, #000 0%, #001a1a 100%);
+            background: #000;
+            padding: 100px 0;
         }
 
         .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            position: relative;
+            display: flex;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 100%;
+            margin: 0;
+            min-height: 600px;
         }
 
         .about-text {
+            position: relative;
+            z-index: 2;
             font-size: 1.2rem;
             line-height: 1.8;
             color: #ccc;
+            max-width: 800px;
+            padding: 3rem 10%;
+            text-align: left;
         }
 
         .about-text p {
@@ -192,16 +211,24 @@
         }
 
         .about-image {
-            position: relative;
-            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            box-shadow: 0 10px 50px rgba(0, 217, 255, 0.3);
+            z-index: 1;
         }
 
         .about-image img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
             display: block;
+            opacity: 0.85;
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%);
         }
 
         /* Services Section */
@@ -211,15 +238,15 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 3rem;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .service-card {
-            background: rgba(0, 217, 255, 0.05);
-            border: 2px solid rgba(0, 217, 255, 0.2);
+            background: rgba(0, 212, 229, 0.05);
+            border: 2px solid rgba(0, 212, 229, 0.2);
             border-radius: 15px;
             padding: 2.5rem;
             transition: all 0.3s;
@@ -234,7 +261,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 229, 0.1), transparent);
             transition: left 0.5s;
         }
 
@@ -244,12 +271,12 @@
 
         .service-card:hover {
             transform: translateY(-10px);
-            border-color: #00d9ff;
-            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px var(--primary-glow);
         }
 
         .service-card h3 {
-            color: #00d9ff;
+            color: var(--primary-color);
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
@@ -262,7 +289,7 @@
 
         /* Contact Section */
         #contact {
-            background: linear-gradient(180deg, #000 0%, #001a1a 100%);
+            background: #000;
         }
 
         .contact-content {
@@ -282,8 +309,8 @@
             display: inline-block;
             padding: 1.5rem 3rem;
             background: transparent;
-            color: #00d9ff;
-            border: 2px solid #00d9ff;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
             border-radius: 50px;
             font-size: 1.3rem;
             text-decoration: none;
@@ -300,7 +327,7 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: #00d9ff;
+            background: var(--primary-color);
             transform: translate(-50%, -50%);
             transition: width 0.5s, height 0.5s;
             z-index: -1;
@@ -313,7 +340,7 @@
 
         .contact-button:hover {
             color: #000;
-            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+            box-shadow: 0 0 30px var(--primary-glow);
         }
 
         .contact-info {
@@ -327,34 +354,83 @@
             background: #000;
             padding: 2rem;
             text-align: center;
-            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            border-top: 1px solid rgba(0, 212, 229, 0.2);
             color: #666;
+        }
+
+        /* Logo Showcase Section */
+        #logo-showcase {
+            background: #000;
+            padding: 100px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .logo-container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 40px var(--primary-glow));
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 40px var(--primary-glow)); }
+            50% { filter: drop-shadow(0 0 60px var(--primary-glow)); }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            #hero-logo-img {
-                max-width: 250px;
-            }
-
             .nav-logo {
-                height: 40px;
+                height: 50px;
             }
 
-            #hero-content {
-                right: 5%;
+            .nav-company-name {
+                font-size: 1rem;
             }
 
             .about-content {
-                grid-template-columns: 1fr;
+                min-height: 500px;
+            }
+
+            .about-text {
+                max-width: 100%;
+                padding: 2rem 5%;
+            }
+
+            .about-image img {
+                opacity: 0.4;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
             }
 
             .section-title {
                 font-size: 2rem;
             }
 
+            #about .section-title {
+                padding-left: 5%;
+            }
+
             section {
                 padding: 80px 5%;
+            }
+
+            #logo-showcase {
+                padding: 60px 10%;
+                min-height: 50vh;
+            }
+
+            .logo-container {
+                max-width: 400px;
             }
 
             nav ul {
@@ -367,7 +443,10 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <img src="images/logo/tta-logo.jpg" alt="Tiger Team Analytics Logo" class="nav-logo">
+        <div class="nav-brand">
+            <img src="images/logo/tta-logo.jpg" alt="Tiger Team Analytics Logo" class="nav-logo">
+            <span class="nav-company-name">Tiger Team Analytics</span>
+        </div>
         <ul>
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -395,13 +474,12 @@
         <h2 class="section-title">About Us</h2>
         <div class="about-content">
             <div class="about-text">
-                <p><strong>Tiger Team Analytics LLC</strong> is a Charleston, South Carolina-based consulting firm specializing in data engineering and data analytics.</p>
-                <p>Like a tiger team, we operate with precision and efficiency — we come in, solve complex data challenges, and deliver results quickly.</p>
-                <p>We serve both government clients through the Naval Information Warfare Center (NIWC) and private sector organizations, helping them gain visibility into their data infrastructure and make informed, data-driven decisions.</p>
-                <p>Our approach combines technical expertise with strategic thinking to uncover hidden infrastructure, eliminate blind spots, and establish robust data governance frameworks.</p>
+                <p><strong>Tiger Team Analytics LLC</strong> is a Charleston, South Carolina-based consulting firm specializing in data engineering and data analytics. We serve both government and private sector organizations, helping them navigate the complexities of modern enterprise data landscapes and unlock the transformative potential of artificial intelligence.</p>
+                <p>Our name comes from the military tradition of "tiger teams" - highly specialized groups assembled to identify vulnerabilities and solve critical problems. But our mission goes beyond simply finding weaknesses. Like the biblical principle in Proverbs 27:17, "Iron sharpens iron; so a man sharpens the countenance of his friend," we work alongside our clients to strengthen their organizations through transparency, expertise, and ethical stewardship.</p>
+                <p>We operate with precision and efficiency - coming in, solving complex data challenges, and delivering results quickly. Our work represents the foundation upon which AI agents and intelligent systems are built. By establishing robust data infrastructure, comprehensive governance frameworks, and clear visibility into data flows, we catapult organizations' AI capabilities forward. You cannot build effective AI without understanding where your data lives, how it moves, and whether you can trust it - that's where we come in.</p>
             </div>
             <div class="about-image">
-                <img src="images/photos/wild-tiger-face-black-white_left.jpeg" alt="Tiger in Water" onerror="this.style.display='none'">
+                <img src="images/photos/tiger-4118589.jpg" alt="Tiger" onerror="this.style.display='none'">
             </div>
         </div>
     </section>
@@ -419,8 +497,8 @@
                 <p>Our analytics services turn complex data into clear, strategic insights. We help organizations understand their data landscape and make informed decisions backed by comprehensive analysis.</p>
             </div>
             <div class="service-card">
-                <h3>TigerMap</h3>
-                <p>Our flagship product: an autonomous infrastructure discovery and mapping system that uses passive network analysis to uncover hidden assets, shadow IT, and undocumented infrastructure across your enterprise.</p>
+                <h3>AI Readiness</h3>
+                <p>We lay the foundation for successful AI implementation by ensuring your data infrastructure is discoverable, trustworthy, and well-governed. Our work enables AI agents to operate effectively by establishing the data visibility and quality essential for intelligent systems.</p>
             </div>
             <div class="service-card">
                 <h3>Data Governance</h3>
@@ -438,6 +516,13 @@
             <div class="contact-info">
                 <p>Charleston, South Carolina</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Logo Showcase Section -->
+    <section id="logo-showcase">
+        <div class="logo-container">
+            <img src="images/logo/tta-logo.jpg" alt="Tiger Team Analytics - Building strength through transparency">
         </div>
     </section>
 
