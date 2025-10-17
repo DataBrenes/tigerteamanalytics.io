@@ -1,0 +1,29 @@
+#container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+
+  }
+  
+  #stockPhoto {
+    /* opacity: 0.5; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  
+  #backgroundVideo {
+    opacity: 0.5; /* Adjust the value to set the desired transparency */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
